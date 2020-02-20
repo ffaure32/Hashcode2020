@@ -4,25 +4,28 @@ fun resolve(input: ParsedInput): Output {
     val output = Output()
     val libraries = input.libraries
     var deadline = input.nbDays
-    var scannedBooks = mutableSetOf<Book>()
-    var library = findLibraryToScan(deadline, libraries, scannedBooks)
+    val scannedBooks = mutableSetOf<Book>()
+    var unSingedLibraries = mutableListOf<Library>()
+    unSingedLibraries.addAll(libraries)
+    var library = findLibraryToScan(deadline, libraries, scannedBooks, unSingedLibraries)
     while (library != null) {
         scan(library, output)
         libraries.remove(library)
         deadline -= library.recordTime
-        library = findLibraryToScan(deadline, libraries, scannedBooks)
+        library = findLibraryToScan(deadline, libraries, scannedBooks, unSingedLibraries)
     }
     return output
 }
 
-fun findLibraryToScan(remainingTime: Int, libraries: List<Library>, scannedBooks: MutableSet<Book>): Library? {
+fun findLibraryToScan(remainingTime: Int, libraries: List<Library>, scannedBooks: MutableSet<Book>, unSingedLibraries: MutableList<Library>): Library? {
     libraries.forEach(Library::computeScore)
     val library = libraries.sortedBy(Library::score).findLast { it.recordTime < remainingTime }
     if (library != null) {
         scannedBooks.addAll(library.books)
     }
-    libraries.forEach {
-        it.books = it.refBooks.filter { book -> !scannedBooks.contains(book) }
+    unSingedLibraries.remove(library)
+    unSingedLibraries.forEach {
+        it.books = it.books.filter { book -> !scannedBooks.contains(book) }
     }
     return library
 }
