@@ -1,7 +1,5 @@
 package com.monochromecivilians.hashcode2020
 
-const val fileName = "a_example"
-
 fun resolve(input: ParsedInput): Output {
     var output = Output()
     var libraries = input.libraries
@@ -9,7 +7,7 @@ fun resolve(input: ParsedInput): Output {
     var library = findLibraryToScan(deadline, libraries)
     while (library != null) {
         scan(library, output)
-        libraries = input.libraries.filter { it != library }
+        libraries.remove(library)
         deadline -= library.recordTime
         library = findLibraryToScan(deadline, libraries)
     }

@@ -27,4 +27,4 @@ fun parseInput(input: List<String>): ParsedInput {
     return ParsedInput(libraries, nbBooks, nbLibraries, nbDays)
 }
 
-data class ParsedInput(val libraries: List<Library>, val nbBooks : Int, val nbLibraries : Int, val nbDays : Int)
+data class ParsedInput(val libraries: MutableList<Library>, val nbBooks : Int, val nbLibraries : Int, val nbDays : Int)
