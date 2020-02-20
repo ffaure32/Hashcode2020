@@ -20,7 +20,7 @@ fun parseInput(input: List<String>): ParsedInput {
         val nbBooksToScan = map[2]
 
         val booksForLibrary = input[index++].split(" ").map { it.toInt() }
-        val booksForLib = booksForLibrary.map { books[it]!! }
+        val booksForLib = booksForLibrary.map { books[it]!! }.sortedByDescending { it.score }
 
         libraries.add(Library(i, nbRecordTime, booksForLib, nbBooksToScan))
     }

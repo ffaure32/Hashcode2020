@@ -18,7 +18,7 @@ fun resolve(input: ParsedInput): Output {
 }
 
 fun findLibraryToScan(remainingTime: Int, libraries: List<Library>, scannedBooks: MutableSet<Book>, unSingedLibraries: MutableList<Library>): Library? {
-    libraries.forEach(Library::computeScore)
+    libraries.forEach { it.computeScore(remainingTime) }
     val library = libraries.sortedBy(Library::score).findLast { it.recordTime < remainingTime }
     if (library != null) {
         scannedBooks.addAll(library.books)
