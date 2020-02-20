@@ -10,7 +10,7 @@ data class Output(var librariesCount: Int = 0, var libraries: MutableList<Librar
         output.add(librariesCount.toString())
         libraries.forEach { library ->
             output.add(library.id.toString() + " " + library.bookIds.size)
-            output.add(library.bookIds.map { it.id }.joinToString { " " })
+            output.add(library.bookIds.map { it.id }.joinToString(" "))
         }
         return output
     }
