@@ -22,7 +22,7 @@ fun parseInput(input: List<String>): ParsedInput {
         val booksForLibrary = input[index++].split(" ").map { it.toInt() }
         val booksForLib = booksForLibrary.map { books[it]!! }
 
-        libraries.add(Library(i, nbRecordTime, booksForLib, nbBooksToScan))
+        libraries.add(Library(i, nbRecordTime, booksForLib, booksForLib, nbBooksToScan))
     }
     return ParsedInput(libraries, nbBooks, nbLibraries, nbDays)
 }

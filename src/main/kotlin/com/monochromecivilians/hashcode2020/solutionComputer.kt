@@ -22,7 +22,7 @@ fun findLibraryToScan(remainingTime: Int, libraries: List<Library>, scannedBooks
         scannedBooks.addAll(library.books)
     }
     libraries.forEach {
-        it.books = it.books.filter { book -> !scannedBooks.contains(book) }
+        it.books = it.refBooks.filter { book -> !scannedBooks.contains(book) }
     }
     return library
 }
