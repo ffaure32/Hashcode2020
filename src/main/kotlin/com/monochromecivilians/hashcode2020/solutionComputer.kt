@@ -1,9 +1,7 @@
 package com.monochromecivilians.hashcode2020
 
-fun computeSolution(parsedInput: ParsedInput): Solution {
-    return Solution(parsedInput)
-}
+const val fileName = "a_example"
 
-data class Solution(val solution: ParsedInput) {
-    fun computeScore() = 1;
+fun resolve(metadata: Object, libraries: List<Library>) {
+
 }
