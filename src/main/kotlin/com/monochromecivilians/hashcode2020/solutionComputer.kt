@@ -4,7 +4,8 @@ fun resolve(input: ParsedInput): Output {
     val output = Output()
     val libraries = input.libraries
     var deadline = input.nbDays
-    var library = findLibraryToScan(deadline, libraries)
+    var scannedBooks = mutableSetOf<Book>()
+    var library = findLibraryToScan(deadline, libraries, scannedBooks)
     while (library != null) {
         scan(library, output)
         libraries.remove(library)
@@ -14,9 +15,16 @@ fun resolve(input: ParsedInput): Output {
     return output
 }
 
-fun findLibraryToScan(remainingTime: Int, libraries: List<Library>): Library? {
+fun findLibraryToScan(remainingTime: Int, libraries: List<Library>, scannedBooks: MutableSet<Book>): Library? {
     libraries.forEach(Library::computeScore)
-    return libraries.sortedBy(Library::score).find { it.recordTime < remainingTime }
+    val library = libraries.sortedBy(Library::score).findLast { it.recordTime < remainingTime }
+    if (library != null) {
+        scannedBooks.addAll(library.books)
+    }
+    libraries.forEach {
+        it.books = it.books.filter { book -> !scannedBooks.contains(book) }
+    }
+    return library
 }
 
 fun scan(library: Library, output: Output) {
