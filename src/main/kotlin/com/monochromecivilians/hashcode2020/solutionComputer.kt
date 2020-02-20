@@ -16,7 +16,7 @@ fun resolve(input: ParsedInput): Output {
 
 fun findLibraryToScan(remainingTime: Int, libraries: List<Library>): Library? {
     libraries.forEach(Library::computeScore)
-    libraries.sortedBy(Library::score).find { it.recordTime < remainingTime }
+    return libraries.sortedBy(Library::score).find { it.recordTime < remainingTime }
 }
 
 fun scan(library: Library, output: Output) {
