@@ -1,8 +1,8 @@
 package com.monochromecivilians.hashcode2020
 
 fun resolve(input: ParsedInput): Output {
-    var output = Output()
-    var libraries = input.libraries
+    val output = Output()
+    val libraries = input.libraries
     var deadline = input.nbDays
     var library = findLibraryToScan(deadline, libraries)
     while (library != null) {
@@ -14,11 +14,13 @@ fun resolve(input: ParsedInput): Output {
     return output
 }
 
-fun findLibraryToScan(remaningTime: Int, libraries: List<Library>): Library? =
-        libraries.find { it.recordTime < remaningTime }
+fun findLibraryToScan(remainingTime: Int, libraries: List<Library>): Library? {
+    libraries.forEach(Library::computeScore)
+    libraries.sortedBy(Library::score).find { it.recordTime < remainingTime }
+}
 
 fun scan(library: Library, output: Output) {
     output.librariesCount++
-    output.bookScannedCount += library.bookIds.size
+    output.bookScannedCount += library.books.size
     output.libraries.add(library)
 }
