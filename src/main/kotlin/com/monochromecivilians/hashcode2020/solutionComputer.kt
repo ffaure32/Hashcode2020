@@ -10,7 +10,7 @@ fun resolve(input: ParsedInput): Output {
         scan(library, output)
         libraries.remove(library)
         deadline -= library.recordTime
-        library = findLibraryToScan(deadline, libraries)
+        library = findLibraryToScan(deadline, libraries, scannedBooks)
     }
     return output
 }
