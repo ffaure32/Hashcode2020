@@ -2,31 +2,21 @@ package com.monochromecivilians.hashcode2020
 
 fun resolve(input: ParsedInput): Output {
     val output = Output()
-    val libraries = input.libraries
+    val libraries = input.libraries.toMutableSet()
     var deadline = input.nbDays
-    val scannedBooks = mutableSetOf<Book>()
-    var unSingedLibraries = mutableListOf<Library>()
-    unSingedLibraries.addAll(libraries)
-    var library = findLibraryToScan(deadline, libraries, scannedBooks, unSingedLibraries)
+    var library = findLibraryToScan(deadline, libraries)
     while (library != null) {
         scan(library, output)
         libraries.remove(library)
         deadline -= library.recordTime
-        library = findLibraryToScan(deadline, libraries, scannedBooks, unSingedLibraries)
+        library = findLibraryToScan(deadline, libraries)
     }
     return output
 }
 
-fun findLibraryToScan(remainingTime: Int, libraries: List<Library>, scannedBooks: MutableSet<Book>, unSingedLibraries: MutableList<Library>): Library? {
-    libraries.forEach { it.computeScore(remainingTime) }
-    val library = libraries.sortedBy(Library::score).findLast { it.recordTime < remainingTime }
-    if (library != null) {
-        scannedBooks.addAll(library.books)
-    }
-    unSingedLibraries.remove(library)
-    unSingedLibraries.forEach {
-        it.books = it.books.filter { book -> !scannedBooks.contains(book) }
-    }
+fun findLibraryToScan(remainingTime: Int, libraries: Set<Library>): Library? {
+    val library = libraries.filter { it.recordTime < remainingTime }.maxBy{it.computeScore(remainingTime)}
+    library?.books?.forEach { it.scanned = true }
     return library
 }
 
