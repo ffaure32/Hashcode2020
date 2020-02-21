@@ -3,9 +3,32 @@ package com.monochromecivilians.hashcode2020
 import kotlin.math.max
 import kotlin.math.min
 
-data class Book(val id: Int, val score: Int, var scanned : Boolean = false) {}
+class Book(val id: Int, val score: Int, var scanned : Boolean = false) {
+    override fun equals(other: Any?): Boolean {
+        if(other is Book) {
+            return id == other.id
+        } else {
+            return false
+        }
+    }
 
-data class Library(val id: Int, val recordTime: Int, var books: List<Book>, val scansPerDay: Int, var score: Int = 0) {
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
+}
+
+class Library(val id: Int, val recordTime: Int, var books: List<Book>, val scansPerDay: Int, var score: Int = 0) {
+    override fun equals(other: Any?): Boolean {
+        if(other is Library) {
+            return id == other.id
+        } else {
+            return false
+        }
+    }
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
+
     fun computeScore(remainingTime: Int): Int {
         val unscannedBooks = books.filter { !it.scanned }
         val min = max(0, remainingTime * this.scansPerDay)
