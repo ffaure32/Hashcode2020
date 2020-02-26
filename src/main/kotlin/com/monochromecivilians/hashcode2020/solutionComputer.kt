@@ -16,11 +16,11 @@ fun resolve(input: ParsedInput): Output {
 
 fun findLibraryToScan(remainingTime: Int, libraries: Set<Library>): Library? {
     val library = libraries.filter { it.recordTime < remainingTime }.maxBy{it.computeScore(remainingTime)}
-    library?.books?.forEach { it.scanned = true }
     return library
 }
 
 fun scan(library: Library, output: Output) {
+    library?.scanBooks()
     output.librariesCount++
     output.bookScannedCount += library.books.size
     output.libraries.add(library)
