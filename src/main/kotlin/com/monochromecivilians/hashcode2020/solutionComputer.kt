@@ -20,7 +20,7 @@ fun findLibraryToScan(remainingTime: Int, libraries: Set<Library>): Library? {
 }
 
 fun scan(library: Library, output: Output) {
-    library?.scanBooks()
+    library.scanBooks()
     output.librariesCount++
     output.bookScannedCount += library.books.size
     output.libraries.add(library)
